@@ -1,0 +1,14 @@
+#emails {
+	float: left; 
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#emails li {
+	margin: 0;
+}
+
+h1 {
+	font-size: 20px;
+}

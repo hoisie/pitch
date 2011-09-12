@@ -1,0 +1,32 @@
+= form_for(@template) do |f|
+  - if @template.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@template.errors.count, "error")  
+        prohibited this template from being saved:
+      %ul
+        - @template.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    %br
+    = f.text_field :name
+
+  .field
+    = f.label :subject
+    %br 
+    = f.text_field :subject
+
+  .field
+    = f.label :content
+    %br
+    = f.text_area :content
+
+  .field
+    = f.label :identity_id
+    %br
+    = f.select :identity_id, options_for_select(Identity.all.map {|identity| [identity.name, identity.id]}) 
+  
+  .actions
+    = f.submit

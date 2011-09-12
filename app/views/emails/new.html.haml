@@ -1,0 +1,18 @@
+%h1 New email
+
+= render 'form'
+
+= link_to 'Back', emails_path
+
+:jsonload
+  var templates = #{@templates.to_json};
+  $(".email_template").click(function(event) {
+    var template_id = $(this).attr("id").match(/template_(\d+)/)[1];
+    var template = _.select(templates, function(t) { return t.id == template_id})[0];
+    $("#email_from").val(template.from);
+    $("#email_subject").val(template.subject);
+    $("#email_content").val(template.content + "\n"+ template.identity.signature);
+    $("#email_template_id").val(template.id);
+    event.preventDefault();
+    return false;
+  });

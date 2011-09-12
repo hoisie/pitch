@@ -1,0 +1,20 @@
+{
+  "name": "My First Extension",
+  "version": "1.0",
+  "description": "The first extension that I made.",
+  "background_page": "background.html",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "popup": "popup.html"
+  },
+  "content_scripts": [
+      {
+        "matches":["http://*/*", "https://*/*"],
+        "js": ["jquery-1.6.3.min.js", "underscore-min.js", "pitch.js"],
+        "run_at" : "document_start"
+      }
+  ],
+  "permissions": [
+    "tabs"
+  ]
+}

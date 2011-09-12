@@ -1,0 +1,17 @@
+%p#notice= notice
+
+%p
+  %b Email:
+  = @identity.email
+
+%p
+  %b Name:
+  = @identity.name
+
+%p
+  %b Signature:
+  = @identity.signature
+
+= link_to 'Edit', edit_identity_path(@identity) 
+|
+= link_to 'Back', identities_path

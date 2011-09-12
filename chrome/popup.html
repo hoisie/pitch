@@ -1,0 +1,61 @@
+<link rel="stylesheet" type="text/css" href="popup.css" />
+
+<script type="text/javascript" src="underscore-min.js"></script>
+<script type="text/javascript" src="jquery-1.6.3.min.js"></script>
+
+<script type="text/template" id="email_block">
+<li>
+<a href="#" class="email">
+{{email}}
+</a>
+</li>
+</script>
+
+<div style="padding: 10px;">
+<div style="width: 150px">
+<h1> Email Template </h1>
+</div>
+<ul id="emails">
+</ul>
+</div>
+
+<script type="text/javascript">
+
+function popup(email)
+{
+  var newwindow = window.open ("http://localhost:3000/emails/new?to="+email,"new_email", "resizable=1,width=400,height=600");
+  if (window.focus) {
+    newwindow.focus();
+  }
+}
+
+_.templateSettings = {
+  interpolate : /\{\{(.+?)\}\}/g
+};
+
+var email_template = _.template($("#email_block").html());
+
+log = function() {
+  var argument_list = _.toArray(arguments);
+  chrome.tabs.getSelected(null, function(tab) {
+    chrome.tabs.sendRequest(tab.id, {action: "log", data: argument_list});
+  });
+};
+
+chrome.tabs.getSelected(null, function(tab) {
+  chrome.tabs.sendRequest(tab.id, {action: "getEmails"}, function(response) {
+    _.each(response.emails, function(email) {
+      $('#emails').append(email_template({email : email}));
+    });
+  });
+});
+
+$(function() {
+  $(".email").live('click', function() {
+    var email = $(this).text();
+    var trimmed = email.replace(/^\s+|\s+$/g, '') ;
+    popup(trimmed);
+  });
+});
+
+</script>

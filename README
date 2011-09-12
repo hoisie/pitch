@@ -1,0 +1,5 @@
+Pitch helps you send templated emails. 
+
+It's a combination Rails app and Chrome extension that let's you scrape emails from a webpage and send them a templated email. 
+
+Pitch was built in one day during the Techcrunch Disrupt Hackathon (SF 2011).

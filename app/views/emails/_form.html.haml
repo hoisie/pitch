@@ -1,0 +1,39 @@
+= form_for(@email) do |f|
+  -if @email.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@email.errors.count, "error")
+        prohibited this email from being saved:
+
+      %ul
+        - @email.errors.full_messages.each do |msg|
+          %li= msg
+  = f.hidden_field :template_id
+
+  #email_templates.clearfix
+    - @templates.each do |t|
+      %a.email_template(href="#" id="template_#{t.id}")
+        = t.name
+  
+  .field
+    = f.label :to
+    %br
+    = f.text_field :to
+
+  .field
+    = f.label :from
+    %br
+    = f.text_field :from
+  
+  .field
+    = f.label :subject
+    %br
+    = f.text_field :subject
+  
+  .field
+    = f.label :content
+    %br
+    = f.text_area :content
+  
+  .actions
+    = f.submit

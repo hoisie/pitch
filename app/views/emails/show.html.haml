@@ -1,0 +1,16 @@
+%p#notice= notice
+
+%p 
+  %b To:
+  = @email.to
+
+%p
+  %b Subject:
+  = @email.subject
+
+%p
+  %b Content:
+  = @email.content
+
+
+= link_to 'Back', emails_path

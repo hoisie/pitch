@@ -1,0 +1,20 @@
+<script type="text/javascript" src="underscore-min.js"></script>
+<script type="text/javascript" src="jquery-1.6.3.min.js"></script>
+
+<script type="text/javascript">
+
+chrome.extension.onRequest.addListener( function(request, sender, sendResponse) {
+    if (request.action == "emails") {
+        var numEmails = _.size(request.data);
+
+        chrome.tabs.getSelected(null, function(tab) {
+            if (numEmails > 0) {
+                chrome.browserAction.setBadgeText({text: String(numEmails), tabId: tab.id});
+            } else {
+                chrome.browserAction.setBadgeText({text:"", tabId: tab.id});
+            }
+        });
+    }
+});
+
+</script>
