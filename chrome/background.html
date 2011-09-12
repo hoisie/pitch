@@ -3,18 +3,28 @@
 
 <script type="text/javascript">
 
+function updateBadge(emails) {
+    var numEmails = _.size(emails);
+
+    chrome.tabs.getSelected(null, function(tab) {
+        if (numEmails > 0) {
+            chrome.browserAction.setBadgeText({text: String(numEmails), tabId: tab.id});
+        } else {
+            chrome.browserAction.setBadgeText({text:"", tabId: tab.id});
+        }
+    });
+}
+
 chrome.extension.onRequest.addListener( function(request, sender, sendResponse) {
     if (request.action == "emails") {
-        var numEmails = _.size(request.data);
-
-        chrome.tabs.getSelected(null, function(tab) {
-            if (numEmails > 0) {
-                chrome.browserAction.setBadgeText({text: String(numEmails), tabId: tab.id});
-            } else {
-                chrome.browserAction.setBadgeText({text:"", tabId: tab.id});
-            }
-        });
+        updateBadge(request.data);
     }
+});
+
+chrome.tabs.onSelectionChanged.addListener(function(tabId,selectInfo) {
+  chrome.tabs.sendRequest(tabId, {action: "getEmails"}, function(response) {
+    updateBadge(response.emails);
+  });
 });
 
 </script>
