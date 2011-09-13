@@ -1,4 +1,5 @@
 class TemplatesController < ApplicationController
+  before_filter :require_user
   # GET /templates
   # GET /templates.json
   def index
@@ -41,7 +42,7 @@ class TemplatesController < ApplicationController
   # POST /templates.json
   def create
     @template = Template.new(params[:template])
-
+    @template.user = current_user
     respond_to do |format|
       if @template.save
         format.html { redirect_to @template, notice: 'Template was successfully created.' }

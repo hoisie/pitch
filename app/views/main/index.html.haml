@@ -1,1 +1,14 @@
-Welcome!
+
+- if current_user
+  Welcome 
+  = current_user.name
+  %br
+  = link_to "Sign out", "/logout"
+  %br 
+  = link_to "Identities", identities_path
+  %br
+  = link_to "Templates", templates_path
+  %br
+  = link_to "New Email", new_email_path
+- else
+  = link_to "Sign in with Google", "/auth/google"

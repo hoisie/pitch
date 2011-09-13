@@ -33,6 +33,7 @@ group :development do
   gem 'ruby-debug19', :require => 'ruby-debug'
 end
 
+gem "omniauth"
 gem "haml"
-gem "mime"
-gem "ruby-gmail", :require => 'gmail'
+gem "gmail_xoauth"
+

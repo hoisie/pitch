@@ -5,6 +5,7 @@ class Template < ActiveRecord::Base
 
     has_many :emails
     belongs_to :identity
+    belongs_to :user
 
     def as_json(*opts)
     	return {

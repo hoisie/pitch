@@ -1,4 +1,5 @@
 class EmailsController < ApplicationController
+  before_filter :require_user
   # GET /emails
   # GET /emails.json
   def index
@@ -45,7 +46,8 @@ class EmailsController < ApplicationController
   # POST /emails.json
   def create
     @email = Email.new(params[:email])
-
+    @email.user = current_user
+    @email.identity = @email.template.identity
     respond_to do |format|
       if @email.save
         format.html { redirect_to email_path(@email), notice: 'Email was successfully created.' }

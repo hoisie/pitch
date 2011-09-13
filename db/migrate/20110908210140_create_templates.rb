@@ -4,7 +4,8 @@ class CreateTemplates < ActiveRecord::Migration
       t.string :name, :null=>false
       t.text :subject, :null=>false
       t.text :content, :null=>false
-      t.references :identity
+      t.references :identity, :null=>false
+      t.references :user, :null=>false
       t.timestamps
     end
   end

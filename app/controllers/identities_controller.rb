@@ -1,4 +1,7 @@
 class IdentitiesController < ApplicationController
+
+  before_filter :require_user
+
   # GET /identities
   # GET /identities.json
   def index
@@ -41,7 +44,7 @@ class IdentitiesController < ApplicationController
   # POST /identities.json
   def create
     @identity = Identity.new(params[:identity])
-
+    @identity.user = current_user
     respond_to do |format|
       if @identity.save
         format.html { redirect_to @identity, notice: 'Identity was successfully created.' }

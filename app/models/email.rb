@@ -6,20 +6,30 @@ class Email < ActiveRecord::Base
 
     belongs_to :template
     belongs_to :identity
+    belongs_to :user
 
     after_create :send_email
 
     def send_email
-        email_obj = self
-        Gmail.new(Pitch::Application.config.gmail_username, Pitch::Application.config.gmail_password) do |gmail|
-            gmail.deliver do
-                to email_obj.to
-                from email_obj.from
-                subject email_obj.subject
-                text_part do
-                    body email_obj.content
-                end
-            end
-        end
+        smtp = Net::SMTP.new('smtp.gmail.com', 587)
+        smtp.enable_starttls_auto
+        secret = {
+          :consumer_key => Pitch::Application.config.google_oauth_consumer_key,
+          :consumer_secret => Pitch::Application.config.google_oauth_consumer_secret,
+          :token => self.user.oauth_token,
+          :token_secret => self.user.oauth_secret
+        }
+        smtp.start('gmail.com', self.user.email, secret, :xoauth)
+
+        message = <<-MESSAGE
+From: #{self.from}
+To: #{self.to}
+Subject: #{self.subject}
+#{self.content}
+MESSAGE
+        puts message
+        smtp.send_message message, self.identity.email, self.to
+
+        smtp.finish
     end
 end

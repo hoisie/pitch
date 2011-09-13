@@ -58,6 +58,8 @@ Pitch::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.gmail_username = "username"
-  config.gmail_password = "password" 
+  config.google_oauth_consumer_key = "consumer_key"
+  config.google_oauth_consumer_secret = "consumer_secret"
+  
+  config.action_mailer.default_url_options = { :host => 'pitchapp.heroku.com' }
 end
